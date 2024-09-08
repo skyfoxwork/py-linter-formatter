@@ -1,8 +1,11 @@
 def format_linter_error(error: dict) -> dict:
-    # return {tuple(key.split("_")): value for key, value in error.items()}
-    # return {("name" if key == "code" else "message" if key == "text" else tuple(key.split("_"))[0] ): value for key, value in error.items() if key != "physical_line"}
-    # return {("name" if key == "code" else "message" if key == "text" else tuple(key.split("_"))[0]): value for key, value in error.items() if key != "physical_line" and key != "filename"}
-    return {("name" if key == "code" else "source" if key == "filename" else "message" if key == "text" else tuple(key.split("_"))[0]): ("flake8" if key == "filename" else value) for key, value in error.items() if key != "physical_line"}
+    return {
+        ("name" if key == "code" else "source" if key == "filename" else
+         "message" if key == "text" else tuple(key.split("_"))[0]):
+        ("flake8" if key == "filename" else value)
+        for key, value in error.items() if key != "physical_line"
+    }
+
 
 def format_single_linter_file(file_path: str, errors: list) -> dict:
     # write your code here
